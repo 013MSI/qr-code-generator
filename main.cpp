@@ -1,21 +1,19 @@
 #include <iostream>
 #include "QRCode.h"
-#include "include/QRCode.h"
 
 using namespace std;
 
 int main() {
-    QRCode qrCode1;
-    QRCode qrCode2("My text to turn into a QR Code");
-
-    cout << "QR Code 1: " << endl;
-    qrCode1.print();
-    qrCode1.download();
+    QRCode::describeProcess();
 
     cout << endl;
 
-    cout << "QR Code 2: " << endl;
-    qrCode2.print();
-    qrCode2.download();
+    QRCode qrCode1("My text to turn into a QR Code");
+
+    cout << "QR Code 1: " << endl;
+    qrCode1.getText();
+    qrCode1.print();
+    qrCode1.download();
+
     return 0;
 }
