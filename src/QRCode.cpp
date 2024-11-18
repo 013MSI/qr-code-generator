@@ -66,9 +66,10 @@ void QRCode::describeProcess() {
 *   - string path
 * return: string
 */
-string QRCode::decode(string path) {
+string QRCode::scan(string path) {
     cout << "Decoding..." << endl;
     cout << "Your text is: " << endl;
+    return "";
 }
 
 /*

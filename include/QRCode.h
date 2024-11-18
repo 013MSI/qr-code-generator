@@ -20,7 +20,7 @@ class QRCode {
         // SOURCE: https://www.geeksforgeeks.org/static-member-function-in-cpp/#
         // SOURCE DESCRIPTION: sytax for C++ static class member functions
         static void describeProcess();
-        static string decode(string);
+        static string scan(string);
         static void checksum(QRCode, string); // change name to verify?
     private:
         string text;
