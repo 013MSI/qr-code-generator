@@ -1,4 +1,7 @@
 #include "Color.h"
+
+#include <fmt/color.h>
+
 #include <iostream>
 
 using namespace std;
@@ -14,5 +17,6 @@ Color::Color(int r, int g, int b) {
 }
 
 void Color::print() {
-    cout << "rgb(" << r << ", " << g << ", " << b << ")";
+    string square = fmt::format(bg(fmt::rgb(r, g, b)), "   ");
+    fmt::print("{}", square);
 }

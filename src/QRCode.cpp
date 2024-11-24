@@ -1,7 +1,10 @@
 #include "QRCode.h"
 #include "utils.h"
+#include "Color.h"
 #include "ColorPalette.h"
 #include "factory.h"
+
+#include <fmt/color.h>
 
 #include <string>
 #include <iostream>
@@ -49,9 +52,9 @@ void QRCode::setPalette(string palette){
 
 void QRCode::printPalettes() {
     for (int i = 0; i < QRCode::paletteNames.size(); i++){
-        cout << QRCode::paletteNames.at(i) << ": ";
+        cout << setw(9) << left << QRCode::paletteNames.at(i) << ": ";
         palettes.at(i).print();
-        cout << endl;
+        cout << endl << endl;
     }
 }
 
@@ -60,7 +63,7 @@ void QRCode::printPalettes() {
 * args:
 * return: void
 */
-void QRCode::print() const {
+void QRCode::printNumerical() const {
     cout << "Printing QR Code" << endl;
     cout << "Palette: " << QRCode::paletteNames.at(paletteIndex) << endl;;
     for (int i = 0; i < qrCode.size(); i++) {
@@ -69,6 +72,19 @@ void QRCode::print() const {
         }
         cout << endl;
     }
+}
+
+void QRCode::print() const {
+    ColorPalette palette = QRCode::palettes.at(paletteIndex);
+    for (int i = 0; i < qrCode.size(); i++) {
+        for (int j = 0; j < qrCode.size(); j++) {
+            Color color = palette.get(qrCode.at(i).at(j));
+            string square = fmt::format(bg(fmt::rgb(color.r, color.g, color.b)), "   ");
+            fmt::print("{}", square);
+        }
+        cout << endl;
+    }
+
 }
 
 /*

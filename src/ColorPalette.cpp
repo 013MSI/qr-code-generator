@@ -1,5 +1,6 @@
 #include "ColorPalette.h"
 #include "Color.h"
+
 #include <iostream>
 
 using namespace std;
@@ -17,9 +18,7 @@ int ColorPalette::size() {
 }
 
 void ColorPalette::print() {
-    cout << "{";
     for (int i = 0; i < colors.size(); i++) {
         colors.at(i).print();
-        cout << ((i == colors.size() - 1) ? "}" : ", ");
     }
 }

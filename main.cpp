@@ -20,6 +20,10 @@ bool isInPalettes(string);
 
 // Main
 int main() {
+
+
+
+
     // constants
     const char QUIT = 'q';
     const char GENERATE = 'g';
@@ -53,7 +57,7 @@ int main() {
 
             // get color palette of qr code
             // cout << "Select a color palette:" << endl;
-            // QRCode::printPalettes();
+            QRCode::printPalettes();
             // paletteSelection = getText(PROMPT);
             // while (!isInPalettes(paletteSelection)) {
             //     paletteSelection = getText(PROMPT);
@@ -66,12 +70,13 @@ int main() {
 
             // TESTING /////??//////
             QRCode qrCode("text");
-            qrCode.setPalette("sunset");
+            qrCode.setPalette("autumn");
             qrCode.generate();
 
             // describeProcess - github pages :)
             // print qr code
             // validate (checksum thingy) - run auto
+            qrCode.printNumerical();
             qrCode.print();
 
             // ask if want to download

@@ -34,6 +34,7 @@ class QRCode {
         string getText() const;
         void setPalette(string);
         void generate();
+        void printNumerical() const;
         void print() const;
         void download() const;
     private:
