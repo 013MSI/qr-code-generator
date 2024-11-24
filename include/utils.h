@@ -3,5 +3,7 @@
 #include <vector>
 using namespace std;
 
-char getCharFromUser(const vector<char> &validChars);
+char getCharFromUser(string prompt, const vector<char> &validChars);
 bool found(char c, const vector<char> &chars);
+string lowerString(string);
+string trim(string);
