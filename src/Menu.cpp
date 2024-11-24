@@ -23,5 +23,5 @@ void Menu::display() {
 }
 
 char Menu::getOption() {
-    return getCharFromUser(options);
+    return getCharFromUser("> ", options);
 }
