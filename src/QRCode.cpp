@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "ColorPalette.h"
 #include "factory.h"
+#include "Bitmap.h"
 
 #include <fmt/color.h>
 
@@ -16,6 +17,7 @@ using namespace std;
 vector<string> QRCode::paletteNames = makePaletteNames();
 vector<ColorPalette> QRCode::palettes = makePalettes();
 vector<vector<bool> > QRCode::reserved  = makeReserved();
+const int QRCode::SQUARE_SIZE = 25;
 
 /*
 * Contructor
@@ -94,6 +96,12 @@ void QRCode::print() const {
 */
 void QRCode::download() const {
     cout << "Downloading QR Code..." << endl;
+
+    ColorPalette palette = QRCode::palettes.at(paletteIndex);
+    Bitmap bitmap(qrCode, QRCode::SQUARE_SIZE, palette);
+    bitmap.download("qrCode.bmp");
+
+    cout << "Finished!" << endl;
 }
 
 /*
@@ -179,9 +187,8 @@ void QRCode::generate() {
 
     // put the message in
     bool fromBottom = true;
-    int letterIndex, digitIndex = 0;
-    cout << text << endl;
-    cout << letterIndex << endl;
+    int letterIndex = 0;
+    int digitIndex = 0;
     vector<int> digits = QRCode::letterToNums(text.at(letterIndex));
 
     // traversing qr code grid from the last column to the first column

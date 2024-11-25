@@ -46,31 +46,32 @@ int main() {
     while (option != QUIT) {
         if (option == GENERATE) {
             // get message to encode
-            // char isCorrectMessage = 'n';
-            // string text;
-            // while (isCorrectMessage == 'n') {
-            //     text = getText("Text: ");
-            //     cout << "The message to encode is \'" << text << "\'" << endl;
-            //     cout << "Is that correct? (\'y\' to confirm, 'n' to enter a new message)" << endl;
-            //     isCorrectMessage = getYesNo(PROMPT);
-            // }
+            char isCorrectMessage = 'n';
+            string text;
+            while (isCorrectMessage == 'n') {
+                text = getText("Text: ");
+                cout << "The message to encode is \'" << text << "\'" << endl;
+                cout << "Is that correct? (\'y\' to confirm, 'n' to enter a new message)" << endl;
+                isCorrectMessage = getYesNo(PROMPT);
+            }
 
             // get color palette of qr code
-            // cout << "Select a color palette:" << endl;
+            cout << "Select a color palette:" << endl;
             QRCode::printPalettes();
-            // paletteSelection = getText(PROMPT);
-            // while (!isInPalettes(paletteSelection)) {
-            //     paletteSelection = getText(PROMPT);
-            // }
+            paletteSelection = getText(PROMPT);
+            while (!isInPalettes(paletteSelection)) {
+                paletteSelection = getText(PROMPT);
+            }
 
             // gen qr code
             // FIXME : add check for text length, text must be < 100 characters to make a QR code for it
-            // QRCode qrCode(text);
-            // qrCode.setPalette(paletteSelection);
+            QRCode qrCode(text);
+            cout << paletteSelection << endl;
+            qrCode.setPalette(paletteSelection);
 
             // TESTING /////??//////
-            QRCode qrCode("text");
-            qrCode.setPalette("autumn");
+            // QRCode qrCode("text");
+            //qrCode.setPalette("ocean");
             qrCode.generate();
 
             // describeProcess - github pages :)
@@ -80,12 +81,12 @@ int main() {
             qrCode.print();
 
             // ask if want to download
-            // cout << "Download? (\'y\' or \'n\')" << endl;
-            // char download = getYesNo(PROMPT);
+            cout << "Download? (\'y\' or \'n\')" << endl;
+            char download = getYesNo(PROMPT);
 
-            // if (download == 'y') {
-            //     qrCode.download();
-            // }
+            if (download == 'y') {
+                qrCode.download();
+            }
 
         } else if (option == SCAN) {
             //scan
