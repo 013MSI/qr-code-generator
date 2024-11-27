@@ -4,6 +4,6 @@ main
 main.dSYM/
 build/
 /assets
-src/CheckSum.cpp
 .DS_Store
 archive/
+build alias

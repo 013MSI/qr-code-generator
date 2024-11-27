@@ -1,7 +1,7 @@
 // Includes
 #include "QRCode.h"
 #include "Menu.h"
-#include "include/QRCode.h"
+#include "checkSum.h"
 #include "utils.h"
 
 #include <iostream>
@@ -25,6 +25,7 @@ int main() {
     const char GENERATE = 'g';
     const char SCAN = 's';
     const string PROMPT = "> ";
+    const string LINK = "https://013msi.github.io/qr-code-generator/";
     // other variable declarations
     Menu menu;
     char option;
@@ -65,16 +66,14 @@ int main() {
             cout << paletteSelection << endl;
             qrCode.setPalette(paletteSelection);
 
-            // TESTING /////??//////
-            // QRCode qrCode("text");
-            //qrCode.setPalette("ocean");
             qrCode.generate();
 
-            // describeProcess - github pages :)
-            // print qr code
-            // validate (checksum thingy) - run auto
-            qrCode.printNumerical();
+            // color args for logo
             qrCode.print(Color(255, 255, 255), Color(0, 0, 0));
+            // checksum
+            cout << "Checksum: " << checksum(text) << endl;
+            cout << "Save the checksum so you can verify your message later" << endl;
+            cout << "Check out this website to learn about how your qr code was generated: " << LINK << endl << endl;
 
             // ask if want to download
             cout << "Download? (\'y\' or \'n\')" << endl;
@@ -85,11 +84,14 @@ int main() {
             }
 
         } else if (option == SCAN) {
-            //scan
             cout << "Scanning..." << endl;
-            // get path
-            // do the scan and output the text
-            QRCode::scan("qrCode.bmp");
+            string decodedText = QRCode::scan("qrCode.bmp");
+
+            cout << "Your message is \"" << decodedText << "\"" << endl;
+            cout << "Checksum: " << checksum(decodedText) << endl;
+            cout << "Compare this checksum with the checksum generated for your text when you generated your qr code." << endl;
+            cout << "  - If the checksums match, the qr code was not tampered with." << endl;
+            cout << "  - If they don't, someone messed with your qr code and you cannot trust the decoded data." << endl;
         }
         menu.display();
         option = menu.getOption();
