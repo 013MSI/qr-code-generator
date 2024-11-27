@@ -17,10 +17,11 @@ using namespace std;
 
 int decodeColor(ColorPalette, Color);
 
+vector<vector<int> > QRCode::logoTemplate = makeLogoTemplate();
 vector<string> QRCode::paletteNames = makePaletteNames();
 vector<ColorPalette> QRCode::palettes = makePalettes();
 vector<vector<bool> > QRCode::reserved  = makeReserved();
-const int QRCode::SQUARE_SIZE = 25;
+const int QRCode::SQUARE_SIZE = 10;
 
 /*
 * Contructor
@@ -79,15 +80,24 @@ void QRCode::printNumerical() const {
     }
 }
 
-void QRCode::print() const {
+void QRCode::print(Color color1, Color color2) const {
     ColorPalette palette = QRCode::palettes.at(paletteIndex);
+    Color color;
     for (int i = 0; i < qrCode.size(); i++) {
         for (int j = 0; j < qrCode.size(); j++) {
-            Color color = palette.get(qrCode.at(i).at(j));
+            int digit = qrCode.at(i).at(j);
+            if (digit == 11) {
+                color = color1;
+            } else if (digit == 12) {
+                color = color2;
+            } else {
+                color = palette.get(qrCode.at(i).at(j));
+            }
             color.print();
         }
         cout << endl;
     }
+
 }
 
 /*
@@ -95,7 +105,7 @@ void QRCode::print() const {
 * args:
 * return: void
 */
-void QRCode::download() const {
+void QRCode::download(Color c1, Color c2) const {
     cout << "Downloading QR Code..." << endl;
     ColorPalette palette = QRCode::palettes.at(paletteIndex);
     const int PIXELS = qrCode.size() * QRCode::SQUARE_SIZE;
@@ -103,13 +113,37 @@ void QRCode::download() const {
     cout << PIXELS << endl;
     for (int row = 0; row < qrCode.size(); row++) {
         for (int col = 0; col < qrCode.size(); col++) {
-            Color color = palette.get(qrCode.at(row).at(col));
+            Color color;
+            // logo area
+            if (row >= 7 && row <=13 && col >= 7 && col <= 13) {
+                // color = Color(0, 0, 0);
+                color = palette.get(rand() % 10);
+            } else { // encoding area
+                color = palette.get(qrCode.at(row).at(col));
+            }
+            // expand each qrcode code box into a larger grid of pixels
             for (int y = 0; y < QRCode::SQUARE_SIZE; y++) {
                 for (int x = 0; x < QRCode::SQUARE_SIZE; x++) {
                     int yPixelIndex = row * QRCode::SQUARE_SIZE + y;
                     int xPixelIndex = col * QRCode::SQUARE_SIZE + x;
                     image.setPixel(yPixelIndex, xPixelIndex, color);
                 }
+            }
+        }
+    }
+
+    // write logo to image before downloading the whole ting
+    int logoRegionStart = 7 * QRCode::SQUARE_SIZE;
+    int logoSize = 70;
+    // add logo to logo region
+    for (int i = logoRegionStart; i < logoRegionStart + logoSize; i++) {
+        for (int j = logoRegionStart; j < logoRegionStart + logoSize; j++) {
+            int logoElement = QRCode::logoTemplate.at(i - logoRegionStart).at(j - logoRegionStart);
+            Color c;
+            if (logoElement == 1) {
+                image.setPixel(i, j, c1);
+            } else if (logoElement == 0) {
+                image.setPixel(i, j, c2);
             }
         }
     }
@@ -273,8 +307,73 @@ void QRCode::checksum(QRCode qr, string text) {
 
 
 void QRCode::generate() {
-    // set the orientation squares
+    // set logo squares
+    // set corners to random colors
+    qrCode.at(7).at(7) = rand() % 10;
+    qrCode.at(7).at(13) = rand() % 10;
+    qrCode.at(13).at(7) = rand() % 10;
+    qrCode.at(13).at(13) = rand() % 10;
 
+    // white - 11, black - 12
+
+    // first and last row of logo
+    for (int i = 8; i <=12; i++) {
+        qrCode.at(7).at(i) = 11;
+        qrCode.at(13).at(i) = 12;
+    }
+    // white cat's eyes
+    for (int i = 7; i <=13; i++) {
+        if (i == 9 || i == 11 || i == 13) {
+            qrCode.at(8).at(i) = 12;
+        } else {
+            qrCode.at(8).at(i) = 11;
+        }
+    }
+
+    // black cat's eyes
+    for (int i = 7; i <=13; i++) {
+        if (i == 7 || i == 9 || i == 11) {
+            qrCode.at(12).at(i) = 11;
+        } else {
+            qrCode.at(12).at(i) = 12;
+        }
+    }
+
+    // body
+    for (int i = 7; i <=13; i++) {
+        if (!(i == 13)) {
+            qrCode.at(9).at(i) = 11;
+            qrCode.at(11).at(i) = 12;
+        } else {
+            qrCode.at(9).at(i) = 12;
+            qrCode.at(11).at(13) = 12;
+            qrCode.at(11).at(i - 6) = 11;
+        }
+    }
+
+    for (int i = 7; i <=13; i++) {
+        if (!(i == 13)) {
+            qrCode.at(9).at(i) = 11;
+            qrCode.at(11).at(i) = 12;
+        } else {
+            qrCode.at(9).at(i) = 12;
+            qrCode.at(11).at(13) = 12;
+            qrCode.at(11).at(i - 6) = 11;
+        }
+    }
+
+    // body - middle
+    for (int i = 7; i <=13; i++) {
+        if (i <= 10) {
+            qrCode.at(10).at(i) = 11;
+        } else {
+            qrCode.at(10).at(i) = 12;
+        }
+    }
+
+
+
+    // set the orientation squares
     //set horizontal parts to color 10 of the orientation squares
     for (int i = 0; i < 5; i++) {
         // row at index 0
@@ -312,6 +411,7 @@ void QRCode::generate() {
     for (int i = 0; i <= 10; i++) {
         qrCode.at(qrCode.size() - 1 - i).at(qrCode.size() - 1) = i;
     }
+
     // set message length in the qr code
     int textLength = text.size();
     for (int i = 0; i < 3; i++) {

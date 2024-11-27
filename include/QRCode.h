@@ -3,11 +3,10 @@
 #pragma once
 
 #include "ColorPalette.h"
+#include "Color.h"
 
 #include <string>
 #include <vector>
-#include <map>
-#include <tuple>
 
 using namespace std;
 
@@ -35,10 +34,11 @@ class QRCode {
         void setPalette(string);
         void generate();
         void printNumerical() const;
-        void print() const;
-        void download() const;
+        void print(Color, Color) const;
+        void download(Color, Color) const;
     private:
         // static variables
+        static vector<vector<int> > logoTemplate;
         static vector<vector<bool> > reserved;
         static vector<ColorPalette> palettes;
         static vector<int> letterToNums(char letter);

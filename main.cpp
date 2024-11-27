@@ -20,7 +20,6 @@ bool isInPalettes(string);
 
 // Main
 int main() {
-
     // constants
     const char QUIT = 'q';
     const char GENERATE = 'g';
@@ -75,14 +74,14 @@ int main() {
             // print qr code
             // validate (checksum thingy) - run auto
             qrCode.printNumerical();
-            qrCode.print();
+            qrCode.print(Color(255, 255, 255), Color(0, 0, 0));
 
             // ask if want to download
             cout << "Download? (\'y\' or \'n\')" << endl;
             char download = getYesNo(PROMPT);
 
             if (download == 'y') {
-                qrCode.download();
+                qrCode.download(Color(255, 255, 255), Color(0, 0, 0));
             }
 
         } else if (option == SCAN) {
