@@ -149,7 +149,7 @@ void QRCode::download(Color c1, Color c2) const {
     }
 
     Bitmap bitmap(image);
-    bitmap.download("qrCode.bmp");
+    bitmap.download("/Users/ailyas/qrCode.bmp");
 
     cout << "Finished!" << endl;
 }

@@ -1,7 +1,7 @@
 // Includes
 #include "QRCode.h"
 #include "Menu.h"
-#include "checkSum.h"
+#include "checksum.h"
 #include "utils.h"
 
 #include <iostream>
