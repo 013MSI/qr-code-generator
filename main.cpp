@@ -21,9 +21,6 @@ bool isInPalettes(string);
 // Main
 int main() {
 
-
-
-
     // constants
     const char QUIT = 'q';
     const char GENERATE = 'g';
@@ -93,6 +90,7 @@ int main() {
             cout << "Scanning..." << endl;
             // get path
             // do the scan and output the text
+            QRCode::scan("qrCode.bmp");
         }
         menu.display();
         option = menu.getOption();

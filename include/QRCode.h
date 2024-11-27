@@ -42,6 +42,7 @@ class QRCode {
         static vector<vector<bool> > reserved;
         static vector<ColorPalette> palettes;
         static vector<int> letterToNums(char letter);
+        static char numsToLetter(const vector<int>& digits);
         // how many pixels each qr code square should be when it is downloaded
         // eg. 25 pixels by 25 pixels
         static const int SQUARE_SIZE;

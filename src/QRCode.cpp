@@ -4,6 +4,7 @@
 #include "ColorPalette.h"
 #include "factory.h"
 #include "Bitmap.h"
+#include "Image.h"
 
 #include <fmt/color.h>
 
@@ -13,6 +14,8 @@
 #include <cstdlib>
 
 using namespace std;
+
+int decodeColor(ColorPalette, Color);
 
 vector<string> QRCode::paletteNames = makePaletteNames();
 vector<ColorPalette> QRCode::palettes = makePalettes();
@@ -81,12 +84,10 @@ void QRCode::print() const {
     for (int i = 0; i < qrCode.size(); i++) {
         for (int j = 0; j < qrCode.size(); j++) {
             Color color = palette.get(qrCode.at(i).at(j));
-            string square = fmt::format(bg(fmt::rgb(color.r, color.g, color.b)), "   ");
-            fmt::print("{}", square);
+            color.print();
         }
         cout << endl;
     }
-
 }
 
 /*
@@ -96,9 +97,24 @@ void QRCode::print() const {
 */
 void QRCode::download() const {
     cout << "Downloading QR Code..." << endl;
-
     ColorPalette palette = QRCode::palettes.at(paletteIndex);
-    Bitmap bitmap(qrCode, QRCode::SQUARE_SIZE, palette);
+    const int PIXELS = qrCode.size() * QRCode::SQUARE_SIZE;
+    Image image(PIXELS, PIXELS);
+    cout << PIXELS << endl;
+    for (int row = 0; row < qrCode.size(); row++) {
+        for (int col = 0; col < qrCode.size(); col++) {
+            Color color = palette.get(qrCode.at(row).at(col));
+            for (int y = 0; y < QRCode::SQUARE_SIZE; y++) {
+                for (int x = 0; x < QRCode::SQUARE_SIZE; x++) {
+                    int yPixelIndex = row * QRCode::SQUARE_SIZE + y;
+                    int xPixelIndex = col * QRCode::SQUARE_SIZE + x;
+                    image.setPixel(yPixelIndex, xPixelIndex, color);
+                }
+            }
+        }
+    }
+
+    Bitmap bitmap(image);
     bitmap.download("qrCode.bmp");
 
     cout << "Finished!" << endl;
@@ -119,10 +135,129 @@ void QRCode::describeProcess() {
 *   - string path
 * return: string
 */
-string QRCode::scan(string path) {
-    cout << "Decoding..." << endl;
-    cout << "Your text is: " << endl;
+string QRCode::scan(string fileName) {
+    Image image = Bitmap::load(fileName);
+
+    // validate if image can be decoded into a qrcode
+
+    // check orientation
+
+    // create vector to store the qrcode data in
+    vector<vector<int> > qrCode;
+    qrCode.resize(QRCode::size);
+    for (int i = 0; i < qrCode.size(); i++) {
+        qrCode.at(i).resize(QRCode::size);
+    }
+
+    // get color palette used for the qr code from the image data
+    ColorPalette palette;
+    for (int i = 0; i < 11; i++) {
+        Color c = image.getPixel((image.getHeight() - 1) - (i * QRCode::SQUARE_SIZE), image.getWidth() - 1);
+        palette.addColor(c);
+    }
+    cout << "Palette:";
+    palette.print();
+    cout << endl;
+
+    // minimize the pixel data into qr code data dimensions and decode each color to an integer btw 0-11
+    for (int i = 0; i < qrCode.size(); i++) {
+        for (int j = 0; j < qrCode.size(); j++) {
+            int y = QRCode::SQUARE_SIZE * i;
+            int x = QRCode::SQUARE_SIZE * j;
+            Color c = image.getPixel(y, x);
+            qrCode.at(i).at(j) = decodeColor(palette, c);
+        }
+    }
+
+    // print text version of qr code
+    for (int i = 0; i < qrCode.size(); i++) {
+        for (int j = 0; j < qrCode.size(); j++) {
+            cout << setw(2) << qrCode.at(i).at(j) << " ";
+        }
+        cout << endl;
+    }
+
+    string decodedText = "";
+    // getting message length
+    vector<int> digits(3);
+    int textLength = 0;
+    for (int i = 0; i < 3; i++) {
+        int lengthDigit = qrCode.at(qrCode.size() - 12 - i).at(qrCode.size() - 1);
+        digits.at(i) = lengthDigit;
+    }
+    textLength = digits.at(0) + (digits.at(1) * 10) + (digits.at(2) * 100);
+    cout << "Text Length: " << textLength << endl;
+
+    // decoding the message
+    bool fromBottom = true;
+    int digitIndex = 0;
+
+    // traversing qr code grid from the last column to the first column
+    for (int col = qrCode.size() - 1; col >= 0; col--) {
+        // walks up a column
+        for (int row = qrCode.size() - 1; fromBottom && (row >= 0); row--) {
+            // getting each char which occupies 3 spaces
+            if (!reserved.at(row).at(col)) {
+                digits.at(digitIndex) = qrCode.at(row).at(col);
+                digitIndex++;
+                if (digitIndex == 3) {
+                    // covert the 3 digit number to a letter and append it
+                    decodedText += QRCode::numsToLetter(digits);
+                    // removes all elements fro the vector and gives the vector a size of 0
+                    // digits.clear(); // SOURCE: https://cplusplus.com/reference/vector/vector/clear/
+                    digitIndex = 0;
+                    if (decodedText.size() == textLength) {
+                        cout << "Your text is: " << decodedText << endl;
+                        return decodedText;
+                    }
+                }
+            }
+        }
+
+        // walks down a column
+        for (int row = 0; !fromBottom && row < qrCode.size(); row++) {
+            // getting each char which occupies 3 spaces
+            if (!reserved.at(row).at(col)) {
+                digits.at(digitIndex) = qrCode.at(row).at(col);
+                digitIndex++;
+                if (digitIndex == 3) {
+                    // covert the 3 digit number to a letter and append it
+                    decodedText += QRCode::numsToLetter(digits);
+                    // removes all elements fro the vector and gives the vector a size of 0
+                    // digits.clear(); // SOURCE: https://cplusplus.com/reference/vector/vector/clear/
+                    digitIndex = 0;
+
+                    if (decodedText.size() == textLength) {
+                        cout << "Your text is: " << decodedText << endl;
+                        return decodedText;
+                    }
+                }
+            }
+        }
+        fromBottom = !fromBottom;
+    }
+
+    // get test from qr code
     return "";
+}
+
+// using the '&' due to suggestion from chatGPT because passing a vector by reference using
+// the '&' symbol means that you are passing the memory address of the vector to the function,
+// rather than creating a copy of the vector, which is more efficient.
+char QRCode::numsToLetter(const vector<int>& digits) {
+    int value = digits.at(0) + (digits.at(1) * 10) + (digits.at(2) * 100);
+    return static_cast<char>(value);
+}
+
+int decodeColor(ColorPalette palette, Color c) {
+    for (int i = 0; i < palette.size(); i++) {
+        Color color = palette.get(i);
+        if (color.r == c.r && color.g == c.g && color.b == c.b) {
+            // cout << "decoded: " << i << endl;
+            return i;
+        }
+    }
+    return -1;
 }
 
 /*
