@@ -105,7 +105,7 @@ void QRCode::print(Color color1, Color color2) const {
 * args:
 * return: void
 */
-void QRCode::download(Color c1, Color c2) const {
+bool QRCode::download(string path, Color c1, Color c2) const {
     cout << "Downloading QR Code..." << endl;
     ColorPalette palette = QRCode::palettes.at(paletteIndex);
     const int PIXELS = qrCode.size() * QRCode::SQUARE_SIZE;
@@ -149,9 +149,7 @@ void QRCode::download(Color c1, Color c2) const {
     }
 
     Bitmap bitmap(image);
-    bitmap.download("/Users/ailyas/qrCode.bmp");
-
-    cout << "Finished!" << endl;
+    return bitmap.download(path);
 }
 
 /*
@@ -171,6 +169,10 @@ void QRCode::describeProcess() {
 */
 string QRCode::scan(string fileName) {
     Image image = Bitmap::load(fileName);
+
+    if (image.getWidth() == 0) {
+        return "";
+    }
 
     // validate if image can be decoded into a qrcode
 
@@ -241,7 +243,6 @@ string QRCode::scan(string fileName) {
                     // digits.clear(); // SOURCE: https://cplusplus.com/reference/vector/vector/clear/
                     digitIndex = 0;
                     if (decodedText.size() == textLength) {
-                        cout << "Your text is: " << decodedText << endl;
                         return decodedText;
                     }
                 }
@@ -262,7 +263,6 @@ string QRCode::scan(string fileName) {
                     digitIndex = 0;
 
                     if (decodedText.size() == textLength) {
-                        cout << "Your text is: " << decodedText << endl;
                         return decodedText;
                     }
                 }

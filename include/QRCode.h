@@ -35,7 +35,7 @@ class QRCode {
         void generate();
         void printNumerical() const;
         void print(Color, Color) const;
-        void download(Color, Color) const;
+        bool download(string, Color, Color) const;
     private:
         // static variables
         static vector<vector<int> > logoTemplate;

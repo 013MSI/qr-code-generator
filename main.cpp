@@ -30,6 +30,7 @@ int main() {
     Menu menu;
     char option;
     string paletteSelection;
+    string path;
 
     // setup
     menu = buildMenu();
@@ -80,25 +81,43 @@ int main() {
             char download = getYesNo(PROMPT);
 
             if (download == 'y') {
-                qrCode.download(Color(255, 255, 255), Color(0, 0, 0));
+                cout << "Enter a location to save your qr code: (ex. /home/myUser/qrCode.bmp)" << endl;
+                path = getText(PROMPT);
+                bool isDownload = qrCode.download(path, Color(255, 255, 255), Color(0, 0, 0));
+                while (isDownload == false && path != "q") {
+                    cout << "Sorry we couldn't download your qr code to that location :(" << endl;
+                    cout << "Double check that your path exists or enter \'q\' to quit." << endl;
+                    path = getText(PROMPT);
+                }
+                if (isDownload) {
+                    cout << "Downloaded successfully!" << endl;
+                    cout << "Check " << path << " to view your beautiful qr code." << endl;
+                }
             }
-
         } else if (option == SCAN) {
+            cout << "Enter the location of your qr code: (ex. /home/myUser/qrCode.bmp)" << endl;
+            path = getText(PROMPT);
             cout << "Scanning..." << endl;
-            string decodedText = QRCode::scan("qrCode.bmp");
+            string decodedText = QRCode::scan(path);
+            while (decodedText == "" && path != "q") {
+                cout << "Sorry we couldn't find your qr code :(" << endl;
+                cout << "Double check that your path is correct or enter \'q\' to quit." << endl;
+                path = getText(PROMPT);
 
-            cout << "Your message is \"" << decodedText << "\"" << endl;
-            cout << "Checksum: " << checksum(decodedText) << endl;
-            cout << "Compare this checksum with the checksum generated for your text when you generated your qr code." << endl;
-            cout << "  - If the checksums match, the qr code was not tampered with." << endl;
-            cout << "  - If they don't, someone messed with your qr code and you cannot trust the decoded data." << endl;
+                string decodedText = QRCode::scan(path);
+            }
+            if (path != "q") {
+                cout << "Your message is \"" << decodedText << "\"" << endl;
+                cout << "Checksum: " << checksum(decodedText) << endl;
+                cout << "Compare this checksum with the checksum generated for your text when you generated your qr code." << endl;
+                cout << "  - If the checksums match, the qr code was not tampered with." << endl;
+                cout << "  - If they don't, someone messed with your qr code and you cannot trust the decoded data." << endl;
+            }
         }
         menu.display();
         option = menu.getOption();
     }
-
     exit();
-
     return 0;
 }
 
