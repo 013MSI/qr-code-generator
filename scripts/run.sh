@@ -1,0 +1,1 @@
+./build/qr-code-generator
