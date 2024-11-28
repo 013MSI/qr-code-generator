@@ -35,7 +35,8 @@ bool Bitmap::download(string fileName) {
         return false;
     }
 
-    cout << "BitmapFileHeader:" << endl;
+    // FIXME: delete later
+    /*cout << "BitmapFileHeader:" << endl;
     cout << "  fileType: " << hex << bmfh.fileType << endl;
     cout << "  size: " << dec << bmfh.size << endl;
     cout << "  reserved1: " << bmfh.reserved1 << endl;
@@ -55,7 +56,7 @@ bool Bitmap::download(string fileName) {
     cout << "  yPixelsPerMeter: " << bmih.yPixelsPerMeter << endl;
     cout << "  numColors: " << bmih.numColors << endl;
     cout << "  numImportantColors: " << bmih.numImportantColors << endl;
-    cout << "  padding: " << padding << endl;
+    cout << "  padding: " << padding << endl;*/
 
     // write headers
     // & - the address-of operator
@@ -98,7 +99,8 @@ Image Bitmap::load(string fileName) {
     // read bitmap information header
     input.read(reinterpret_cast<char*>(&bmih), sizeof(bmih));
 
-    cout << "BitmapFileHeader:" << endl;
+    // FIXME: delete later
+    /*cout << "BitmapFileHeader:" << endl;
     cout << "  fileType: " << hex << bmfh.fileType << endl;
     cout << "  size: " << dec << bmfh.size << endl;
     cout << "  reserved1: " << bmfh.reserved1 << endl;
@@ -117,14 +119,11 @@ Image Bitmap::load(string fileName) {
     cout << "  xPixelsPerMeter: " << bmih.xPixelsPerMeter << endl;
     cout << "  yPixelsPerMeter: " << bmih.yPixelsPerMeter << endl;
     cout << "  numColors: " << bmih.numColors << endl;
-    cout << "  numImportantColors: " << bmih.numImportantColors << endl;
+    cout << "  numImportantColors: " << bmih.numImportantColors << endl;*/
 
     // calculate padding
     // FIXME : dont hardcode 3
     int padding = Bitmap::calculatePadding(bmih.width * 3);
-
-    cout << "  padding: " << padding << endl;
-
 
     // jump to pixel data
     input.seekg(bmfh.offSet, input.beg);

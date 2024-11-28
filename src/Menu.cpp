@@ -1,6 +1,8 @@
 #include "Menu.h"
 #include "utils.h"
 
+#include "fmt/color.h"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -15,9 +17,9 @@ Menu* Menu::addItem(char option, string description) {
 }
 
 void Menu::display() {
-    cout << "---MENU---" << endl;
     for (int i = 0; i < options.size(); i++) {
-        cout << options.at(i) << ": " << descriptions.at(i) << endl;
+        fmt::print(fmt::emphasis::bold, "{}: ", options.at(i));
+        fmt::print("{}\n", descriptions.at(i));
     }
     cout << endl;
 }

@@ -4,6 +4,8 @@
 #include "checksum.h"
 #include "utils.h"
 
+#include "fmt/color.h"
+
 #include <iostream>
 #include <cctype>
 #include <string>
@@ -37,6 +39,7 @@ int main() {
 
     // app start
     welcome();
+    fmt::print(fmt::emphasis::underline, "Pick an action to get started\n");
     menu.display();
     option = menu.getOption();
 
@@ -48,23 +51,23 @@ int main() {
             string text;
             while (isCorrectMessage == 'n') {
                 text = getText("Text: ");
-                cout << "The message to encode is \'" << text << "\'" << endl;
+                cout << "The message to encode is \"" << text << "\"" << endl;
                 cout << "Is that correct? (\'y\' to confirm, 'n' to enter a new message)" << endl;
                 isCorrectMessage = getYesNo(PROMPT);
             }
 
             // get color palette of qr code
-            cout << "Select a color palette:" << endl;
+            fmt::print(fmt::emphasis::underline, "\nSelect a color palette\n\n");
             QRCode::printPalettes();
             paletteSelection = getText(PROMPT);
             while (!isInPalettes(paletteSelection)) {
                 paletteSelection = getText(PROMPT);
             }
 
-            // gen qr code
+            fmt::print(fmt::emphasis::bold, "\nGenerating...\n\n");
+
             // FIXME : add check for text length, text must be < 100 characters to make a QR code for it
             QRCode qrCode(text);
-            cout << paletteSelection << endl;
             qrCode.setPalette(paletteSelection);
 
             qrCode.generate();
@@ -72,9 +75,11 @@ int main() {
             // color args for logo
             qrCode.print(Color(255, 255, 255), Color(0, 0, 0));
             // checksum
-            cout << "Checksum: " << checksum(text) << endl;
-            cout << "Save the checksum so you can verify your message later" << endl;
-            cout << "Check out this website to learn about how your qr code was generated: " << LINK << endl << endl;
+            cout << endl << "Checksum: " << checksum(text) << endl;
+            cout << "Save the checksum so you can verify your message later." << endl;
+            cout <<"Check out this website to learn about how your qr code was generated: ";
+            fmt::print(fmt::emphasis::italic, LINK);
+            cout << endl << endl;
 
             // ask if want to download
             cout << "Download? (\'y\' or \'n\')" << endl;
@@ -97,7 +102,7 @@ int main() {
         } else if (option == SCAN) {
             cout << "Enter the location of your qr code: (ex. /home/myUser/qrCode.bmp)" << endl;
             path = getText(PROMPT);
-            cout << "Scanning..." << endl;
+            fmt::print(fmt::emphasis::bold, "\nScanning...\n\n");
             string decodedText = QRCode::scan(path);
             while (decodedText == "" && path != "q") {
                 cout << "Sorry we couldn't find your qr code :(" << endl;
@@ -114,6 +119,7 @@ int main() {
                 cout << "  - If they don't, someone messed with your qr code and you cannot trust the decoded data." << endl;
             }
         }
+        fmt::print(fmt::emphasis::underline, "\nActions\n");
         menu.display();
         option = menu.getOption();
     }
@@ -122,7 +128,12 @@ int main() {
 }
 
 void welcome() {
-    cout << "Welcome" << endl;
+        cout << " _  _  ____  _  _       _  _    __    _  _   ___     ___    __    ____  ___ \n";
+        cout << "( \\/ )(_  _)( \\( ) ___ ( \\/ )  /__\\  ( \\( ) / __)   / __)  /__\\  (_  _)/ __)\n";
+        cout << " \\  /  _)(_  )  ( (___) \\  /  /(__)\\  )  ( ( (_-.  ( (__  /(__)\\   )(  \\__ \\\n";
+        cout << " (__) (____)(_)\\_)      (__) (__)(__)(_)\\_) \\___/   \\___)(__)(__) (__) (___/\n\n";
+        cout << "                       🐱 QR Code Generator & Scanner" << endl << endl;
+        cout << "                   Create colorful QR codes quickly and easily" << endl << endl;
 }
 
 Menu buildMenu() {

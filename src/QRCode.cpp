@@ -106,7 +106,6 @@ void QRCode::print(Color color1, Color color2) const {
 * return: void
 */
 bool QRCode::download(string path, Color c1, Color c2) const {
-    cout << "Downloading QR Code..." << endl;
     ColorPalette palette = QRCode::palettes.at(paletteIndex);
     const int PIXELS = qrCode.size() * QRCode::SQUARE_SIZE;
     Image image(PIXELS, PIXELS);
@@ -191,9 +190,6 @@ string QRCode::scan(string fileName) {
         Color c = image.getPixel((image.getHeight() - 1) - (i * QRCode::SQUARE_SIZE), image.getWidth() - 1);
         palette.addColor(c);
     }
-    cout << "Palette:";
-    palette.print();
-    cout << endl;
 
     // minimize the pixel data into qr code data dimensions and decode each color to an integer btw 0-11
     for (int i = 0; i < qrCode.size(); i++) {
@@ -205,13 +201,13 @@ string QRCode::scan(string fileName) {
         }
     }
 
-    // print text version of qr code
-    for (int i = 0; i < qrCode.size(); i++) {
-        for (int j = 0; j < qrCode.size(); j++) {
-            cout << setw(2) << qrCode.at(i).at(j) << " ";
-        }
-        cout << endl;
-    }
+    // // print text version of qr code
+    // for (int i = 0; i < qrCode.size(); i++) {
+    //     for (int j = 0; j < qrCode.size(); j++) {
+    //         cout << setw(2) << qrCode.at(i).at(j) << " ";
+    //     }
+    //     cout << endl;
+    // }
 
     string decodedText = "";
     // getting message length
@@ -222,7 +218,6 @@ string QRCode::scan(string fileName) {
         digits.at(i) = lengthDigit;
     }
     textLength = digits.at(0) + (digits.at(1) * 10) + (digits.at(2) * 100);
-    cout << "Text Length: " << textLength << endl;
 
     // decoding the message
     bool fromBottom = true;
