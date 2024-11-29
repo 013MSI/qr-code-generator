@@ -1,0 +1,6 @@
+.DS_Store
+archive/
+assets/
+build/
+src/
+.vscode/
