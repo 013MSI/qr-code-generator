@@ -8,13 +8,26 @@
   <body>
     <div id="heading">
       <div id="yinyangcats">
-        <img width="75%"" src="YinYangCatsWhite.png">
-        <p>QR Code Generator and Scanner</p>
+        <img id="yinyangcatsimg" src="YinYangCatsWhite.png" />
+        <p id="description"><b>QR Code Generator and Scanner</b></p>
         <p>
-          Final Project for CSC10300 - Introduction to Computing for Majors @
-          CCNY
+          <i>
+            Final Project for CSC10300 - Introduction to Computing for Majors @
+            CCNY
+          </i>
         </p>
         <p>Professor Madeline Blount | Team: Ayesha Ilyas & Maryam Ilyas</p>
+        <div class="row-3">
+          <div class="col-3">
+            <img src="qr-grayscale1.bmp" />
+          </div>
+          <div class="col-3">
+            <img src="qr-autumn.bmp" />
+          </div>
+          <div class="col-3">
+            <img src="qr-ocean.bmp" />
+          </div>
+        </div>
       </div>
       <svg
         class="svg"
@@ -35,7 +48,7 @@
       </svg>
     </div>
 
-    <div id="content">
+    <article id="content">
       <div class="content_section">
         <h2>QR Code Layout</h2>
         <p>
@@ -44,84 +57,152 @@
           7x7 logo region in the center. The rest of the grid is used to store
           encoded text.
         </p>
-        <img class="diagram" src="QRCodeLayout.png" />
       </div>
+      <img class="diagram" src="QRCodeLayout.png" />
 
-      <div class="content_section">
+      <section class="content_section">
         <h2>Text Encoding Process</h2>
         <p class="highlight">
           “Valuable lessons were code words for pain that no one apologized
           for.” ― Jennifer A. Nielsen, The False Prince
         </p>
         <p>To illustrate the encoding process we will use the quote above.</p>
-        <h3>1. Convert each symbol in the text to its ASCII encoding.</h3>
-        <p class="highlight">
-          86 97 108 117 97 98 108 101 32 108 101 115 115 111 110 115 32 119 101
-          114 101 32 99 111 100 101 32 119 111 114 100 115 32 102 111 114 32 112
-          97 105 110 32 116 104 97 116 32 110 111 32 111 110 101 32 97 112 111
-          108 111 103 105 122 101 100 32 102 111 114 46
-        </p>
+        <div class="step">
+          <h3>1. Convert each symbol in the text to its ASCII encoding.</h3>
+          <p class="highlight">
+            86 97 108 117 97 98 108 101 32 108 101 115 115 111 110 115 32 119
+            101 114 101 32 99 111 100 101 32 119 111 114 100 115 32 102 111 114
+            32 112 97 105 110 32 116 104 97 116 32 110 111 32 111 110 101 32 97
+            112 111 108 111 103 105 122 101 100 32 102 111 114 46
+          </p>
+        </div>
+        <div class="step">
+          <h3>2. Pad each ASCII number to a width of 3.</h3>
+          <p class="highlight">
+            086 097 108 117 097 098 108 101 032 108 101 115 115 111 110 115 032
+            119 101 114 101 032 099 111 100 101 032 119 111 114 100 115 032 102
+            111 114 032 112 097 105 110 032 116 104 097 116 032 110 111 032 111
+            110 101 032 097 112 111 108 111 103 105 122 101 100 032 102 111 114
+            046
+          </p>
+        </div>
+        <div class="step">
+          <h3>3. Layout digits in data region.</h3>
+        </div>
+        <div class="row-2">
+          <div class="col-2">
+            <img src="QRCodeDataLayout.png" />
+          </div>
+          <div class="col-2">
+            <img src="QRCodeWithTextData.png" />
+          </div>
+        </div>
 
-        <h3>2. Pad each ASCII number to a width of 3.</h3>
-        <p class="highlight">
-          086 097 108 117 097 098 108 101 032 108 101 115 115 111 110 115 032
-          119 101 114 101 032 099 111 100 101 032 119 111 114 100 115 032 102
-          111 114 032 112 097 105 110 032 116 104 097 116 032 110 111 032 111
-          110 101 032 097 112 111 108 111 103 105 122 101 100 032 102 111 114
-          046
-        </p>
-
-        <h3>3. Layout digits in data region.</h3>
-        <img class="diagram" src="QRCodeWithTextData.png" />
-
-        <h3>4. Fill the rest of the data region with random digits.</h3>
+        <div class="step">
+          <h3>4. Fill the rest of the data region with random digits.</h3>
+        </div>
         <img class="diagram" src="QRCodeWithData.png" />
-
-        <h3>5. Choose a color scheme for the qr code.</h3>
-        <p>
-          Each digit is mapped to a unique color. Here is the mapping for our
-          'autumn' color palette.
-        </p>
-        <p>0 -> rbg(218, 56, 50) -> <span id="c0">[cc]</span></p>
-        <p>1 -> rbg(239, 133, 50) -> <span id="c1">[cc]</span></p>
-        <p>2 -> rbg(246, 196, 69) -> <span id="c2">[cc]</span></p>
-        <p>3 -> rbg(48, 54, 147) -> <span id="c3">[cc]</span></p>
-        <p>4 -> rbg(82, 180, 234) -> <span id="c4">[cc]</span></p>
-        <p>5 -> rbg(181, 228, 77) -> <span id="c5">[cc]</span></p>
-        <p>6 -> rbg(85, 174, 88) -> <span id="c6">[cc]</span></p>
-        <p>7 -> rbg(140, 26, 50) -> <span id="c7">[cc]</span></p>
-        <p>8 -> rbg(241, 166, 177) -> <span id="c8">[cc]</span></p>
-        <p>9 -> rbg(218, 248, 193) -> <span id="c9">[cc]</span></p>
-        <p>10 -> rbg(89, 108, 139) -> <span id="c10">[cc]</span></p>
-
-        <h3>6. Generate the QR code image.</h3>
-        <p>
-          Expand each box of the data region into a 10x10 pixel box of the
-          appropriate color. Then add the logo to the middle of the image.
-        </p>
-        <p>DIAGRAM HERE</p>
+        <div class="step">
+          <h3>5. Choose a color scheme for the qr code.</h3>
+          <p>
+            Each digit is mapped to a unique color. Here is the mapping for our
+            'autumn' color palette.
+          </p>
+          <div id="colors">
+            <div id="c0">0</div>
+            <div id="c1">1</div>
+            <div id="c2">2</div>
+            <div id="c3">3</div>
+            <div id="c4">4</div>
+            <div id="c5">5</div>
+            <div id="c6">6</div>
+            <div id="c7">7</div>
+            <div id="c8">8</div>
+            <div id="c9">9</div>
+            <div id="c10">10</div>
+          </div>
+        </div>
+        <div class="step">
+          <h3>6. Generate the QR code image.</h3>
+          <p>
+            Expand each box of the data region into a 10x10 pixel box of the
+            appropriate color. Then add the logo to the middle of the image.
+          </p>
+        </div>
+        <img id="diagram-qr" src="qr-autumn.bmp" />
         <p>
           Fun Fact: Our logo is cats because our Professor has an adorable cat
           named Proton! 😼
         </p>
-      </div>
+      </section>
 
-      <div class="content_section">
+      <section class="content_section">
         <h2>Decoding Process</h2>
-        <h3>1. Convert the QR code image into a 21x21 grid of numbers.</h3>
-        <h3>2. Determine the encoded text's length.</h3>
-        <h3>
-          3. Traverse the QR code grid, converting each 3 box sequence from the
-          data region into the ASCII number.
-        </h3>
-        <h3>4. Map each ASCII number to it's corresponding character.</h3>
-        <p>Voila! The text has been sucessfully extraced from the QR code :)</p>
-      </div>
+        <div class="step">
+          <h3>1. Convert the QR code image into a 21x21 grid of numbers.</h3>
+          <p>
+            The bitmap is transformed into a grid of number. The bitmap can be
+            given in any rotation and the decoder will automaticall rotate it in
+            the correct direction with the orientation squares.
+          </p>
+        </div>
+
+        <div class="row-4">
+          <div class="col-4">
+            <img src="qr-grayscale1.bmp" />
+          </div>
+          <div class="col-4">
+            <img src="qr-grayscale2.bmp" />
+          </div>
+          <div class="col-4">
+            <img src="qr-grayscale3.bmp" />
+          </div>
+          <div class="col-4">
+            <img src="qr-grayscale4.bmp" />
+          </div>
+        </div>
+
+        <div class="step">
+          <h3>2. Determine the encoded text's length.</h3>
+        </div>
+        <div class="step">
+          <h3>
+            3. Traverse the QR code grid, converting each 3 box sequence from
+            the data region into the ASCII number.
+          </h3>
+        </div>
+        <div class="step">
+          <h3>4. Map each ASCII number to it's corresponding character.</h3>
+          <p>
+            Voila! The text has been sucessfully extraced from the QR code :)
+          </p>
+        </div>
+      </section>
 
       <div class="content_section">
         <h2>Checksum</h2>
+        <div class="step">
+          <h3>What is a checksum?</h3>
+          <p>
+            A checksum is a simple function that is used for basic error
+            detection. While it is not fool proof, it is a quick way to do a
+            simple check.
+          </p>
+        </div>
+        <div class="step">
+          <h3>Our Checksum</h3>
+          <p>
+            Our program outputs a checksum when the program is generated. The
+            user will say this and double check it when they decoded, as another
+            checksum is printed. If the checksums are the same we can says that
+            the data is not tampered with. Otherwise is they do not match, then
+            the data may not be the same anymore.
+          </p>
+          <p>The checksum for our example text is:</p>
+          <p class="highlight">Dhs,d(uut:llu?</p>
+        </div>
       </div>
-    </div>
+    </article>
 
     <!-- <div id="color1">Testing Color 1</div>
     <div id="color2">Testing Color 2</div>
