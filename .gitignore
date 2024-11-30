@@ -1,9 +1,5 @@
 .vscode
 *.exe
-main
-main.dSYM/
 build/
-/assets
+assets/
 .DS_Store
-archive/
-build alias
