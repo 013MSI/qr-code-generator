@@ -9,7 +9,7 @@ using namespace std;
 void generate();
 void scan();
 
-// generate helpers
+// helper functions
 string getMessage();
 ColorPalette getPalette();
 void downloadQRCode(QRCode& qrCode, ColorPalette& palette);

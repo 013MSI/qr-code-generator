@@ -9,7 +9,7 @@ using namespace std;
 
 // SOURCE: https://stackoverflow.com/questions/44620755/c-the-compiler-is-changing-the-alignment-of-my-structures-how-can-i-prevent-t
 // used to prevent the compiler from automatically padding the structure to align the data in memory differently
-// eg. we want to ensure that the below struct takes up exactly 14 bytes
+// we want to ensure the below struct takes up exactly 14 bytes
 #pragma pack(1)
 struct BitmapFileHeader {
     uint16_t fileType = 0x4D42;     // always BM to declare this a .bmp file
@@ -19,7 +19,7 @@ struct BitmapFileHeader {
     uint32_t offSet = 0;            // the number of bytes from the beginning where the pixel data begins
 };
 
-// 40 bytes
+// we want to ensure that the below struct takes up exactly 40 bytes
 struct BitmapInfoHeader {
     uint32_t size = 40;             // size of info header, in bytes
     uint32_t width = 0;             // width of image, in pixels
@@ -37,13 +37,13 @@ struct BitmapInfoHeader {
 
 class Bitmap {
     public:
-        // static methods
+        // static method
         static Image load(const string& path);
 
         // constructor
         Bitmap(const Image& image);
 
-        // instance methods
+        // instance method
         void download(const string& path);
     private:
         // static methods

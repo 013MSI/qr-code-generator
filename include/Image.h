@@ -9,8 +9,11 @@ using namespace std;
 // color image
 class Image {
     public:
+        // constructors
         Image();
         Image(int width, int height);
+
+        // instance methods
         void setPixel(int y, int x, const Color& c);
         Color getPixel(int y, int x) const;
         int getWidth() const;
@@ -21,9 +24,12 @@ class Image {
         // TODO: delete this
         void print() const;
     private:
+        // static variable
+        static const int COLOR_WIDTH = 3;
+
+        // instance variables
         vector<uint8_t> pixels;
         int width;
         int height;
         int rowLength;
-        static const int COLOR_WIDTH = 3;
 };
