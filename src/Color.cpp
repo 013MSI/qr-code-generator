@@ -1,7 +1,5 @@
 #include "Color.h"
-
 #include <fmt/color.h>
-
 #include <iostream>
 
 using namespace std;
@@ -16,7 +14,15 @@ Color::Color(int r, int g, int b) {
     this->b = b;
 }
 
-void Color::print() {
+void Color::print() const {
     string square = fmt::format(bg(fmt::rgb(r, g, b)), "   ");
     fmt::print("{}", square);
+}
+
+bool Color::operator==(const Color& other) const {
+    return r == other.r && g == other.g && b == other.b;
+}
+
+bool Color::operator!=(const Color& other) const{
+    return r != other.r || g != other.g || b != other.b;
 }

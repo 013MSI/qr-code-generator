@@ -4,4 +4,4 @@
 
 using namespace std;
 
-string checksum(string);
+string checksum(string text);

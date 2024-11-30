@@ -4,6 +4,7 @@
 
 #include "ColorPalette.h"
 #include "Color.h"
+#include "Image.h"
 
 #include <string>
 #include <vector>
@@ -13,16 +14,13 @@ using namespace std;
 class QRCode {
     public:
         // static variables
-        static vector<string> paletteNames;
-        static const int size = 21;
+        static const int SIZE = 21;
+        static const int MAX_LEN = 109;
 
         // static methods
         // SOURCE: https://www.geeksforgeeks.org/static-member-function-in-cpp/#
         // SOURCE DESCRIPTION: sytax for C++ static class member functions
-        static void describeProcess();
-        static string scan(string);
-        static void checksum(QRCode, string); // FIXME : should it be in this class?
-        static void printPalettes();
+        static string scan(const string&);
 
         // constructor
         QRCode(string);
@@ -31,26 +29,36 @@ class QRCode {
         // void regenerate(string); is this worth adding to the interface?
         // void setColor(string); hexadecimal color foreground
         string getText() const;
-        void setPalette(string);
-        void generate();
         void printNumerical() const;
-        void print(Color, Color) const;
-        bool download(string, Color, Color) const;
+        void print(const ColorPalette& palette, const Color& c1, const Color& c2) const;
+        bool download(const string& path, const ColorPalette& palette, const Color& c1, const Color& c2) const;
     private:
         // static variables
-        static vector<vector<int> > logoTemplate;
-        static vector<vector<bool> > reserved;
-        static vector<ColorPalette> palettes;
-        static vector<int> letterToNums(char letter);
-        static char numsToLetter(const vector<int>& digits);
+        static vector<vector<int>> logoTemplate;
+        static vector<vector<bool>> reserved;
         // how many pixels each qr code square should be when it is downloaded
         // eg. 25 pixels by 25 pixels
-        static const int SQUARE_SIZE;
+        static const int SQUARE_SIZE = 10;
+        static const int LOGO_START_INDEX = 7;
+        static const int LOGO_END_INDEX = 13;
+
+        // static helper methods
+        // encoding
+        static vector<int> letterToDigits(char letter);
+        static bool inLogoArea(int row, int col);
+        static void expandToPixels(Image& image, int row, int col, const Color& c);
+        static void writeLogoToImage(Image& image, const Color& c1, const Color& c2);
+        // deocoding
+        static Image rotateImage(const Image& image, int);
+        static vector<vector<int>> minimizeToData(const Image& image, const ColorPalette& palette);
+        static bool checkOrientationSquares(const vector<vector<int>>& data);
+        static char digitsToLetter(const vector<int>& digits);
+        static int decodeColor(const ColorPalette& palette, const Color& c);
+        static bool contains(const vector<Color>& colors, const Color& c);
+        // both
+        static bool isValidPalette(const ColorPalette& palette);
 
         // instance variables
-        int paletteIndex;
         string text;
-        vector< vector <int> > qrCode;
-
-        // instance methods
+        vector<vector<int>> qrCode;
 };

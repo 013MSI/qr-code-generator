@@ -3,7 +3,9 @@
 #include <vector>
 using namespace std;
 
-char getCharFromUser(string prompt, const vector<char> &validChars);
+char getCharFromUser(const string& prompt, const vector<char>& validChars);
 bool found(char c, const vector<char> &chars);
-string lowerString(string);
+string lowerString(const string);
 string trim(string);
+string getText(const string& prompt);
+char getYesNo(const string& prompt);

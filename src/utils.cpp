@@ -6,12 +6,12 @@
 
 using namespace std;
 
-char getCharFromUser(string prompt, const vector<char> &validChars) {
+char getCharFromUser(const string& prompt, const vector<char>& validChars) {
     string input;
     cout << prompt;
     getline(cin, input);
     while (input.length() != 1 || !found(tolower(input.at(0)), validChars)) {
-        cout << "> ";
+        cout << prompt;
         getline(cin, input);
     }
     return input.at(0);
@@ -26,7 +26,7 @@ bool found(char c, const vector<char> &chars) {
     return false;
 }
 
-string lowerString(string text) {
+string lowerString(const string text) {
     string lowered;
     for (int i = 0; i < text.length(); i++) {
         lowered += tolower(text.at(i));
@@ -63,4 +63,33 @@ string trim(string text) {
     }
 
     return trimmed;
+}
+
+
+// get non empty input text and trimming leading and trailing whitespace
+string getText(const string& prompt) {
+    string text;
+    cout << prompt;
+    getline(cin, text);
+    text = trim(text);
+    while (text == "") {
+        cout << prompt;
+        getline(cin, text);
+        text = trim(text);
+    }
+    return text;
+}
+
+
+// FIXME : return bool?
+char getYesNo(const string& prompt) {
+    vector<char> chars;
+    char validChar;
+
+    chars.push_back('y');
+    chars.push_back('n');
+
+    validChar = getCharFromUser(prompt, chars);
+    return validChar;
+
 }

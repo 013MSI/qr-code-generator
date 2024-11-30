@@ -1,6 +1,5 @@
 #include "Image.h"
 #include "Color.h"
-
 #include <vector>
 #include <iostream>
 #include <cstdint>
@@ -19,15 +18,14 @@ Image::Image(int width, int height) {
     pixels.resize(rowLength * height);
 }
 
-void Image::setPixel(int y, int x, Color color) {
+void Image::setPixel(int y, int x, const Color& color) {
     int pixelIndex = (y * rowLength) + (Image::COLOR_WIDTH * x);
     pixels.at(pixelIndex + 2) = color.r;
     pixels.at(pixelIndex + 1) = color.g;
     pixels.at(pixelIndex    ) = color.b;
-
 }
 
-Color Image::getPixel(int y, int x) {
+Color Image::getPixel(int y, int x) const {
     Color color;
     int pixelIndex = (y * rowLength) + (Image::COLOR_WIDTH * x);
     color.r = pixels.at(pixelIndex + 2);
@@ -36,11 +34,7 @@ Color Image::getPixel(int y, int x) {
     return color;
 }
 
-// vector<uint8_t> Image::getPixels() {
-//     return pixels;
-// }
-
-int Image::getRowLength() {
+int Image::getRowLength() const {
     return rowLength;
 }
 
@@ -51,26 +45,16 @@ uint8_t* Image::getRowAddress(int rowIndex) {
     return pixels.data() + (rowIndex * rowLength);
 }
 
-int Image::getWidth() {
+int Image::getWidth() const {
     return width;
 }
 
-int Image::getHeight() {
+int Image::getHeight() const {
     return height;
 }
 
-void Image::print() {
-    // for (int y = 0; y < height; y++) {
-    //     for (int x = 0; x < width * 3; x+=3) {
-    //         cout << "rgb(";
-    //         cout << (int) pixels.at(y * (width * 3) + x + 2) << ", ";
-    //         cout << (int) pixels.at(y * (width * 3) + x + 1) << ", ";
-    //         cout << (int) pixels.at(y * (width * 3) + x) << ")";
-    //         cout << "\t";
-    //     }
-    //     cout << "\n";
-    // }
-
+// TODO: delete this
+void Image::print() const {
     for (int i = 0; i < pixels.size(); i++) {
         cout << (int) pixels.at(i) << " ";
         if ((i + 1) % (width * 3) == 0) {

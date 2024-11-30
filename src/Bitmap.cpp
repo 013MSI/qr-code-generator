@@ -1,15 +1,16 @@
 #include "Bitmap.h"
 #include "Image.h"
-
 #include <iostream>
 #include <vector>
 #include <string>
 #include <cstdint>
 #include <fstream>
+#include <ios>
+#include <regex>
 
 using namespace std;
 
-Bitmap::Bitmap(Image image) {
+Bitmap::Bitmap(const Image& image) {
     this->image = image;
 
     // calculate padding
@@ -25,38 +26,26 @@ Bitmap::Bitmap(Image image) {
     bmfh.size = bmfh.offSet + bmih.imageSize;
 }
 
-bool Bitmap::download(string fileName) {
-    // open / create file to write binary data into
-    ofstream output(fileName.c_str(), ios::binary);
+// exceptions thrown if
+// - invalid path to bmp file passed as argument
+// - file can't be opened or created (perhaps bc the path does not exist)
+// - fail to write to file
+// exception types: ios_base::failure
+void Bitmap::download(const string& path) {
 
-    // error opening / creating file
-    if (!output) {
-        cout << "Could not open file" << endl;
-        return false;
+    if (!Bitmap::isValidPath(path)) {
+         throw ios_base::failure("invalid path to .bmp file");
     }
 
-    // FIXME: delete later
-    /*cout << "BitmapFileHeader:" << endl;
-    cout << "  fileType: " << hex << bmfh.fileType << endl;
-    cout << "  size: " << dec << bmfh.size << endl;
-    cout << "  reserved1: " << bmfh.reserved1 << endl;
-    cout << "  reserved2: " << bmfh.reserved2 << endl;
-    cout << "  offSet: " << bmfh.offSet << endl;
+    // open / create file to write binary data into
+    ofstream output(path.c_str(), ios::binary);
 
-    // Print all fields of BitmapInfoHeader
-    cout << "BitmapInfoHeader:" << endl;
-    cout << "  size: " << bmih.size << endl;
-    cout << "  width: " << bmih.width << endl;
-    cout << "  height: " << bmih.height << endl;
-    cout << "  planes: " << bmih.planes << endl;
-    cout << "  bitsPerPixel: " << bmih.bitsPerPixel << endl;
-    cout << "  compression: " << bmih.compression << endl;
-    cout << "  imageSize: " << bmih.imageSize << endl;
-    cout << "  xPixelsPerMeter: " << bmih.xPixelsPerMeter << endl;
-    cout << "  yPixelsPerMeter: " << bmih.yPixelsPerMeter << endl;
-    cout << "  numColors: " << bmih.numColors << endl;
-    cout << "  numImportantColors: " << bmih.numImportantColors << endl;
-    cout << "  padding: " << padding << endl;*/
+    // error opening / creating file
+    // SOURCE: https://en.cppreference.com/w/cpp/io/ios_base/failure
+    // SOURCE DESCRIPTION: c++ built in exception object used for I/O failures
+    if (!output) {
+        throw ios_base::failure("could not open / create file");
+    }
 
     // write headers
     // & - the address-of operator
@@ -74,16 +63,26 @@ bool Bitmap::download(string fileName) {
     }
 
     output.close();
-    return true;
 }
 
-Image Bitmap::load(string fileName) {
+// exceptions thrown if
+// - invalid path to bmp file passed as argument
+// - file can't be read (perhaps bc the path does not exist)
+// - fail to read file
+// - file is not a .bmp file
+// exception types: ios_base::failure
+Image Bitmap::load(const string& path) {
+
+    if (!Bitmap::isValidPath(path)) {
+        throw ios_base::failure("invalid path to .bmp file");
+    }
+
     BitmapFileHeader bmfh;
     BitmapInfoHeader bmih;
-    ifstream input(fileName.c_str(), ios::binary);
+    ifstream input(path.c_str(), ios::binary);
 
     if (!input) {
-        return Image(); // return empty Image
+        throw ios_base::failure("could not read file");
     }
 
     // read file information header
@@ -93,43 +92,20 @@ Image Bitmap::load(string fileName) {
 
     // determine if the specified file is a bmp file
     if(bmfh.fileType != 0x4D42) {
-        return Image(); // return empty Image
+        throw ios_base::failure("not a .bmp file");
     }
 
     // read bitmap information header
     input.read(reinterpret_cast<char*>(&bmih), sizeof(bmih));
 
-    // FIXME: delete later
-    /*cout << "BitmapFileHeader:" << endl;
-    cout << "  fileType: " << hex << bmfh.fileType << endl;
-    cout << "  size: " << dec << bmfh.size << endl;
-    cout << "  reserved1: " << bmfh.reserved1 << endl;
-    cout << "  reserved2: " << bmfh.reserved2 << endl;
-    cout << "  offSet: " << bmfh.offSet << endl;
-
-    // Print all fields of BitmapInfoHeader
-    cout << "BitmapInfoHeader:" << endl;
-    cout << "  size: " << bmih.size << endl;
-    cout << "  width: " << bmih.width << endl;
-    cout << "  height: " << bmih.height << endl;
-    cout << "  planes: " << bmih.planes << endl;
-    cout << "  bitsPerPixel: " << bmih.bitsPerPixel << endl;
-    cout << "  compression: " << bmih.compression << endl;
-    cout << "  imageSize: " << bmih.imageSize << endl;
-    cout << "  xPixelsPerMeter: " << bmih.xPixelsPerMeter << endl;
-    cout << "  yPixelsPerMeter: " << bmih.yPixelsPerMeter << endl;
-    cout << "  numColors: " << bmih.numColors << endl;
-    cout << "  numImportantColors: " << bmih.numImportantColors << endl;*/
+    // create image of correct size
+    Image image(bmih.width, bmih.height);
 
     // calculate padding
-    // FIXME : dont hardcode 3
-    int padding = Bitmap::calculatePadding(bmih.width * 3);
+    int padding = Bitmap::calculatePadding(image.getRowLength());
 
     // jump to pixel data
     input.seekg(bmfh.offSet, input.beg);
-
-    // create image of correct size
-    Image image(bmih.width, bmih.height);
 
     // read each row of pixel data from the bitmap
     // the first row of the bitmap pixel data corresponds to the last row of the image pixel data
@@ -143,10 +119,22 @@ Image Bitmap::load(string fileName) {
     return image;
 }
 
+
+// helper methods
 int Bitmap::calculatePadding(int rowLength) {
     int paddedRowLength = rowLength;
     while (paddedRowLength % 4 != 0) {
         paddedRowLength++;
     }
     return paddedRowLength - rowLength;
+}
+
+bool Bitmap::isValidPath(const string& path) {
+    // SOURCE: https://www.geeksforgeeks.org/regex-regular-expression-in-c/#
+    // SOURCE DESCRIPTION: how to use regex in c++
+    // regex generated by ChatGPT using the prompt: "regex to match valid path poinintg to .bmp file"
+    // R prefix indicates that the regex should be interpreted literally, so a \ is not interpreted as an escape character
+    string pattern = R"(^(?:[a-zA-Z]:\\|\/)?(?:[^<>:\"|?*\r\n]+[\/\\])*[^<>:\"|?*\r\n]+\.bmp$)";
+    regex pathToBmp(pattern);
+    return regex_match(path, pathToBmp);
 }

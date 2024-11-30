@@ -2,7 +2,6 @@
 
 #include "Color.h"
 #include "Image.h"
-
 #include <cstdint>
 #include <vector>
 
@@ -38,13 +37,22 @@ struct BitmapInfoHeader {
 
 class Bitmap {
     public:
-        Bitmap(Image image);
-        bool download(string fileName);
-        static Image load(string fileName);
+        // static methods
+        static Image load(const string& path);
+
+        // constructor
+        Bitmap(const Image& image);
+
+        // instance methods
+        void download(const string& path);
     private:
+        // static methods
+        static bool isValidPath(const string& path);
+        static int calculatePadding(int rowLength);
+
+        // instance variables
         BitmapFileHeader bmfh;
         BitmapInfoHeader bmih;
         Image image;
         int padding;
-        static int calculatePadding(int rowLength);
 };

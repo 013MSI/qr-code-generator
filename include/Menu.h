@@ -7,9 +7,10 @@ using namespace std;
 
 class Menu {
     public:
-        Menu* addItem(char, string); // Ayesha knows about pointers
-        void display();
-        char getOption();
+        // return pointer to self from addItem so that the Menu can be built by chaining .addItem calls
+        Menu* addItem(char option, string description);
+        void print() const;
+        char getOption() const;
     private:
         vector<char> options;
         vector<string> descriptions;
