@@ -28,15 +28,15 @@ Text to encode:
 
 **Grayscale**
 
-![Sample grayscale QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/fix-and-refactor/samples/qr-grayscale.bmp)
+![Sample grayscale QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/main/samples/qr-grayscale.bmp)
 
 **Autumn Theme**
 
-![Sample autumn QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/fix-and-refactor/samples/qr-autumn.bmp)
+![Sample autumn QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/main/samples/qr-autumn.bmp)
 
 **Ocean Theme**
 
-![Sample ocean QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/fix-and-refactor/samples/qr-ocean.bmp)
+![Sample ocean QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/main/samples/qr-ocean.bmp)
 
 
 ### **Running the App Locally (for unix systems)**
