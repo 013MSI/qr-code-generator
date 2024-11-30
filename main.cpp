@@ -7,16 +7,19 @@
 
 using namespace std;
 
-
 void welcome();
 void exit();
-Menu buildMenu();
 
 int main() {
     // create menu
-    Menu menu = buildMenu();
+    Menu menu;
+    menu.addItem('g', "🛠  Generate")
+        ->addItem('s', "🔍 Scan")
+        ->addItem('q', "⤵️  Quit");
+
     // print banner
     welcome();
+
     // print menu for the first time and get action
     fmt::print(fmt::emphasis::underline, "Pick an action to get started\n");
     menu.print();
@@ -53,14 +56,6 @@ void welcome() {
     cout << "                   Create colorful QR codes quickly and easily\n\n";
 }
 
-void exit() {;
+void exit() {
     cout << "\n😼 Exited QR Code Generator & Scanner.\n\n";
-}
-
-Menu buildMenu() {
-    Menu menu;
-    menu.addItem('g', "🛠  Generate")
-        ->addItem('s', "🔍 Scan")
-        ->addItem('q', "⤵️  Quit");
-    return menu;
 }
