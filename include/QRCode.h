@@ -20,7 +20,7 @@ class QRCode {
         // static methods
         // SOURCE: https://www.geeksforgeeks.org/static-member-function-in-cpp/#
         // SOURCE DESCRIPTION: sytax for C++ static class member functions
-        static string scan(const string&);
+        static string scan(const string& path);
 
         // constructor
         QRCode(string);

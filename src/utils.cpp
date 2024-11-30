@@ -26,7 +26,7 @@ bool found(char c, const vector<char> &chars) {
     return false;
 }
 
-string lowerString(const string text) {
+string lowerString(const string& text) {
     string lowered;
     for (int i = 0; i < text.length(); i++) {
         lowered += tolower(text.at(i));
@@ -34,7 +34,7 @@ string lowerString(const string text) {
     return lowered;
 }
 
-string trim(string text) {
+string trim(const string& text) {
     string trimmed = "";
 
     // find index to start copying characters from
