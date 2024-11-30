@@ -46,7 +46,7 @@ int main() {
 
 void welcome() {
     // SOURCE: https://patorjk.com/software/taag/#p=display&f=Bulbhead&t=yin-yang%0A
-    // SOURCE DESCRIPTION: ascii art generator
+    // DESCRIPTION: ascii art generator
     // used ChatGPT to create cout statements for the art generated using the above source
     cout << " _  _  ____  _  _       _  _    __    _  _   ___     ___    __    ____  ___ \n";
     cout << "( \\/ )(_  _)( \\( ) ___ ( \\/ )  /__\\  ( \\( ) / __)   / __)  /__\\  (_  _)/ __)\n";

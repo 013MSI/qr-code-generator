@@ -4,7 +4,7 @@ using namespace std;
 
 vector<vector<int> > makeLogoTemplate() {
     // SOURCE: https://stackoverflow.com/questions/17663186/initializing-a-two-dimensional-stdvector
-    // SOURCE DESCRIPTION: how to init 2d vector with values using init lists
+    // DESCRIPTION: how to init 2d vector with values using init lists
     vector<vector<int> > logoTemplate
     {
         {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},

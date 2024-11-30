@@ -15,7 +15,7 @@
 using namespace std;
 
 // SOURCE: https://stackoverflow.com/questions/3701903/initialisation-of-static-vector
-// SOURCE DESCRIPTION: How to initialize a static vector attribute
+// DESCRIPTION: How to initialize a static vector attribute
 vector<vector<int> > QRCode::logoTemplate = makeLogoTemplate();
 vector<vector<bool> > QRCode::reserved = makeReserved();
 
@@ -109,7 +109,7 @@ string QRCode::getText() const {
 void QRCode::print(const ColorPalette& palette, const Color& c1, const Color& c2) const {
 
     // SOURCE: https://www.w3schools.com/cpp/cpp_exceptions.asp
-    // SOURCE DESCRIPTION: error handling in c++
+    // DESCRIPTION: error handling in c++
     if (!QRCode::isValidPalette(palette) || c1 == c2) {
         throw invalid_argument("invalid color options");
     }
@@ -142,7 +142,7 @@ void QRCode::print(const ColorPalette& palette, const Color& c1, const Color& c2
 // - file can't be opened or created (perhaps bc the path does not exist)
 // - fail to write to file
 // exception types: ios_base::failure
-bool QRCode::download(const string& path, const ColorPalette& palette, const Color& c1, const Color& c2) const {
+void QRCode::download(const string& path, const ColorPalette& palette, const Color& c1, const Color& c2) const {
 
     if (!QRCode::isValidPalette(palette) || c1 == c2) {
         throw invalid_argument("invalid color options");
@@ -178,7 +178,6 @@ bool QRCode::download(const string& path, const ColorPalette& palette, const Col
     Bitmap bitmap(image);
     // download bitmap
     bitmap.download(path); // return status of download
-    return true;
 }
 
 

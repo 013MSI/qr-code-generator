@@ -1,3 +1,5 @@
+// factory.h
+
 #pragma once
 
 #include "ColorPalette.h"
@@ -5,4 +7,9 @@
 
 using namespace std;
 
+/*
+ * Creates three color palettes, each with a different theme.
+ *
+ * return A vector of ColorPalette objects
+ */
 vector<ColorPalette> makePalettes();

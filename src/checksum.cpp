@@ -3,9 +3,6 @@
 
 using namespace std;
 
-// SOURCE: https://www.geeksforgeeks.org/error-detection-code-checksum/?ref=oin_asr4
-// SOURCE DESCRIPTION: learn more about checksum
-
 // ------------------ HOW IT WORKS ------------------
 // 1. pad string if its length it not a multiple of 5
 // 2. divide the string into substrings of length 5

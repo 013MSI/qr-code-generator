@@ -13,7 +13,7 @@
 #include <iomanip>
 
 // SOURCE: https://github.com/fmtlib/fmt/blob/master/include/fmt/color.h
-// SOURCE DESCRIPTION: fmt named colors
+// DESCRIPTION: fmt named colors
 
 using namespace std;
 
@@ -121,7 +121,7 @@ ColorPalette getPalette() {
     }
     char paletteIndex = getChar(PROMPT, paletteIndices);
     // SOURCE: https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c
-    // SOURCE DESCRIPTION: how to convert a number character to an integer
+    // DESCRIPTION: how to convert a number character to an integer
     ColorPalette palette = palettes.at(paletteIndex - '0' - 1);
     return palette;
 }

@@ -41,7 +41,7 @@ int Image::getRowLength() const {
 uint8_t* Image::getRowAddress(int rowIndex) {
     // calculate the start address of a row of pixel data
     // SOURCE: https://cplusplus.com/reference/vector/vector/data/
-    // SOURCE DESCRIPTION: vector.data() returns a direct pointer to the memory array used internally by the vector to store its owned elements
+    // DESCRIPTION: vector.data() returns a direct pointer to the memory array used internally by the vector to store its owned elements
     return pixels.data() + (rowIndex * rowLength);
 }
 

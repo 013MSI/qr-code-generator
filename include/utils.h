@@ -1,16 +1,18 @@
+// utils.h
+
 #pragma once
 
 #include <vector>
 using namespace std;
 
-// io utils
+// Input/Output
 char getChar(const string& prompt, const vector<char>& validChars);
 string getText(const string& prompt);
 char getYesNo(const string& prompt);
 
-// string manip
+// String Manip
 string lowerString(const string& text);
 string trim(const string& text);
 
-// char util
+// Char Search
 bool found(char c, const vector<char>& chars);
