@@ -1,3 +1,5 @@
+// QRCode.cpp
+
 #include "QRCode.h"
 #include "utils.h"
 #include "Color.h"
@@ -19,11 +21,6 @@ using namespace std;
 vector<vector<int> > QRCode::logoTemplate = makeLogoTemplate();
 vector<vector<bool> > QRCode::reserved = makeReserved();
 
-/*
-* Contructor - creates a qr code with the given text
-* args:
-*   - string text: the text which should be encoded into the qr code
-*/
 QRCode::QRCode(string text) {
     // 21 x 21 grid = 441 boxes total
     // orientation squares = 3*(5+5+3+3+1) = 51
@@ -91,21 +88,10 @@ QRCode::QRCode(string text) {
     }
 }
 
-/*
-* Gets QR code text.
-* return: a string
-*/
 string QRCode::getText() const {
     return text;
 }
 
-/*
-* Prints a colored QR code to the terminal
-* args:
-*   - ColorPalette palette: the color scheme to use
-*   - Color c1: the first color for the logo
-*   - Color c2: the second color for the logo
-*/
 void QRCode::print(const ColorPalette& palette, const Color& c1, const Color& c2) const {
 
     // SOURCE: https://www.w3schools.com/cpp/cpp_exceptions.asp
@@ -131,17 +117,6 @@ void QRCode::print(const ColorPalette& palette, const Color& c1, const Color& c2
     }
 }
 
-/*
-* download - downloads the QR code
-* args:
-* return: void
-*/
-// exceptions thrown if
-// - invalid color options passed
-// - invalid path to bmp file passed as argument
-// - file can't be opened or created (perhaps bc the path does not exist)
-// - fail to write to file
-// exception types: ios_base::failure
 void QRCode::download(const string& path, const ColorPalette& palette, const Color& c1, const Color& c2) const {
 
     if (!QRCode::isValidPalette(palette) || c1 == c2) {
@@ -180,19 +155,6 @@ void QRCode::download(const string& path, const ColorPalette& palette, const Col
     bitmap.download(path); // return status of download
 }
 
-
-/*
-* decode - decodes the QR code given a bitmap
-* args:
-*   - string path
-* return: string
-*/
-// exceptions thrown if
-// - invalid path to bmp file passed as argument
-// - file can't be read (perhaps bc the path does not exist)
-// - fail to read file
-// - file is not a .bmp file
-// exception types: ios_base::failure
 string QRCode::scan(const string& path) {
 
     // FIXME: Bitmap should throw error if the specified file is not a .bmp file

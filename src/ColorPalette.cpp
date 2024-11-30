@@ -1,3 +1,5 @@
+// ColorPalette.cpp
+
 #include "ColorPalette.h"
 #include "Color.h"
 

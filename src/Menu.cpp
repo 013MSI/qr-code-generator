@@ -1,10 +1,9 @@
+// Menu.cpp
+
 #include "Menu.h"
 #include "utils.h"
 #include "fmt/color.h"
-#include <iostream>
 #include <string>
-#include <vector>
-#include <cctype>
 
 using namespace std;
 
@@ -19,7 +18,7 @@ void Menu::print() const {
         fmt::print(fmt::emphasis::bold, "{}: ", options.at(i));
         fmt::print("{}\n", descriptions.at(i));
     }
-    cout << endl;
+    fmt::print("\n");
 }
 
 char Menu::getOption() const {

@@ -1,9 +1,12 @@
+// factory.cpp
+
 #include "ColorPalette.h"
 #include "Color.h"
 #include <vector>
 
 using namespace std;
 
+// color palettes generated with the help of ChatGPT
 vector<ColorPalette> makePalettes() {
     vector<ColorPalette> palettes;
 

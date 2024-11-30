@@ -1,3 +1,5 @@
+// Bitmap.cpp
+
 #include "Bitmap.h"
 #include "Image.h"
 #include <iostream>
@@ -36,8 +38,6 @@ void Bitmap::download(const string& path) {
     ofstream output(path.c_str(), ios::binary);
 
     // error opening / creating file
-    // SOURCE: https://en.cppreference.com/w/cpp/io/ios_base/failure
-    // DESCRIPTION: c++ built in exception object used for I/O failures
     if (!output) {
         throw ios_base::failure("could not open / create file");
     }
@@ -108,8 +108,9 @@ Image Bitmap::load(const string& path) {
     return image;
 }
 
-
-// helper methods
+// =============================================================================================== //
+// ==================================== STATIC HELPER METHODS ==================================== //
+// =============================================================================================== //
 int Bitmap::calculatePadding(int rowLength) {
     int paddedRowLength = rowLength;
     while (paddedRowLength % 4 != 0) {

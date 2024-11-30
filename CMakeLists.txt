@@ -5,7 +5,7 @@ set (CMAKE_CXX_STANDARD 11)
 find_package(fmt REQUIRED)
 
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
-add_executable(qr-code-generator main.cpp ${SRC_FILES})
+add_executable(qr-code-generator app.cpp ${SRC_FILES})
 
 target_include_directories(qr-code-generator PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

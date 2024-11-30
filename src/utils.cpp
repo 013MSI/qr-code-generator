@@ -1,3 +1,5 @@
+// utils.h
+
 #include "utils.h"
 
 #include <vector>
@@ -6,6 +8,7 @@
 
 using namespace std;
 
+// Input/Output
 char getChar(const string& prompt, const vector<char>& validChars) {
     string input;
     cout << prompt;
@@ -17,15 +20,32 @@ char getChar(const string& prompt, const vector<char>& validChars) {
     return input.at(0);
 }
 
-bool found(char c, const vector<char> &chars) {
-    for (int i = 0; i < chars.size(); i++) {
-        if (c == chars.at(i)) {
-            return true;
-        }
+string getText(const string& prompt) {
+    string text;
+    cout << prompt;
+    getline(cin, text);
+    text = trim(text);
+    while (text == "") {
+        cout << prompt;
+        getline(cin, text);
+        text = trim(text);
     }
-    return false;
+    return text;
 }
 
+char getYesNo(const string& prompt) {
+    vector<char> chars;
+    char validChar;
+
+    chars.push_back('y');
+    chars.push_back('n');
+
+    validChar = getChar(prompt, chars);
+    return validChar;
+
+}
+
+// String Manip
 string lowerString(const string& text) {
     string lowered;
     for (int i = 0; i < text.length(); i++) {
@@ -65,31 +85,12 @@ string trim(const string& text) {
     return trimmed;
 }
 
-
-// get non empty input text and trimming leading and trailing whitespace
-string getText(const string& prompt) {
-    string text;
-    cout << prompt;
-    getline(cin, text);
-    text = trim(text);
-    while (text == "") {
-        cout << prompt;
-        getline(cin, text);
-        text = trim(text);
+// Char Search
+bool found(char c, const vector<char> &chars) {
+    for (int i = 0; i < chars.size(); i++) {
+        if (c == chars.at(i)) {
+            return true;
+        }
     }
-    return text;
-}
-
-
-// FIXME : return bool?
-char getYesNo(const string& prompt) {
-    vector<char> chars;
-    char validChar;
-
-    chars.push_back('y');
-    chars.push_back('n');
-
-    validChar = getChar(prompt, chars);
-    return validChar;
-
+    return false;
 }

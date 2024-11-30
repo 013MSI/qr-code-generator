@@ -1,3 +1,5 @@
+// main.cpp
+
 #include "constants.h"
 #include "qrActions.h"
 #include "Menu.h"
@@ -57,5 +59,5 @@ void welcome() {
 }
 
 void exit() {
-    cout << "\n😼 Exited QR Code Generator & Scanner.\n\n";
+    cout << "\n😼 Closed QR Code Generator & Scanner.\n\n";
 }

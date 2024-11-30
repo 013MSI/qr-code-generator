@@ -1,3 +1,5 @@
+// qrActions.cpp
+
 #include "qrActions.h"
 #include "factory.h"
 #include "constants.h"
@@ -12,10 +14,13 @@
 #include <string>
 #include <iomanip>
 
+using namespace std;
+
 // SOURCE: https://github.com/fmtlib/fmt/blob/master/include/fmt/color.h
 // DESCRIPTION: fmt named colors
 
-using namespace std;
+// SOURCE: https://github.com/fmtlib/fmt?tab=readme-ov-file
+// DESCRIPTION: fmt github repo + documentation
 
 // create color palette information
 const vector<ColorPalette> palettes = makePalettes();
@@ -48,6 +53,8 @@ void scan() {
     string path;
 
     while (tryScan) {
+        // SOURCE: https://www.w3schools.com/cpp/cpp_exceptions.asp
+        // DESCRIPTION: Exception handling in c++
         try {
 
             if (isFirstAttempt) {
