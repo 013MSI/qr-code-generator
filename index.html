@@ -8,7 +8,7 @@
   <body>
     <div id="heading">
       <div id="yinyangcats">
-        <img id="yinyangcatsimg" src="YinYangCatsWhite.png" />
+        <img id="yinyangcatsimg" src="YinYangCatsClearWhite.png"/>
         <p id="description"><b>QR Code Generator and Scanner</b></p>
         <p>
           <i>
@@ -52,21 +52,27 @@
       <div class="content_section">
         <h2>QR Code Layout</h2>
         <p>
-          The layout consits of a 21x21 grid, which inludes 3 orientation
-          squares, 11 boxes for color data, 3 boxes for size information, and a
-          7x7 logo region in the center. The rest of the grid is used to store
-          encoded text.
+          A QR code is structured as a 21x21 grid with specific regions designated for 
+          various types of data and functionality:
         </p>
+        <ul class="bullets">
+            <li>Orientation Squares: Three large squares in the corners help the decoder determine 
+            the QR code’s rotation and alignment.</li>
+            <li>Color Data Boxes: Eleven boxes are allocated to encode color data.</li>
+            <li>Size Information Boxes: Three boxes store metadata about the QR code size.</li>
+            <li>Logo Region: A 7x7 central area reserved for branding or logos.</li>
+            <li>Data Region: The remaining grid space stores the encoded text.</li>
+        </ul>
       </div>
       <img class="diagram" src="QRCodeLayout.png" />
 
       <section class="content_section">
         <h2>Text Encoding Process</h2>
+        <p>To demonstrate the encoding process, we will use the following quote:</p>
         <p class="highlight">
           “Valuable lessons were code words for pain that no one apologized
           for.” ― Jennifer A. Nielsen, The False Prince
         </p>
-        <p>To illustrate the encoding process we will use the quote above.</p>
         <div class="step">
           <h3>1. Convert each symbol in the text to its ASCII encoding.</h3>
           <p class="highlight">
@@ -88,6 +94,7 @@
         </div>
         <div class="step">
           <h3>3. Layout digits in data region.</h3>
+          <p>Place the padded digits sequentially within the available grid space of the data region.</p>
         </div>
         <div class="row-2">
           <div class="col-2">
@@ -99,7 +106,8 @@
         </div>
 
         <div class="step">
-          <h3>4. Fill the rest of the data region with random digits.</h3>
+          <h3>4. Fill the rest of the data region.</h3>
+          <p>Any unused spaces in the data region are filled with random digits.</p>
         </div>
         <img class="diagram" src="QRCodeWithData.png" />
         <div class="step">
@@ -126,7 +134,7 @@
           <h3>6. Generate the QR code image.</h3>
           <p>
             Expand each box of the data region into a 10x10 pixel box of the
-            appropriate color. Then add the logo to the middle of the image.
+            corresponding color. Finally, add the logo to the central 70x70 region.
           </p>
         </div>
         <img id="diagram-qr" src="qr-autumn.bmp" />
@@ -138,12 +146,15 @@
 
       <section class="content_section">
         <h2>Decoding Process</h2>
+        <p>This process of extracting the encoded text from the QR code is the reverse
+          of the encoding process describe above.
+        </p>
         <div class="step">
           <h3>1. Convert the QR code image into a 21x21 grid of numbers.</h3>
           <p>
-            The bitmap is transformed into a grid of number. The bitmap can be
-            given in any rotation and the decoder will automaticall rotate it in
-            the correct direction with the orientation squares.
+            The QR code bitmap is transformed into a grid representing numeric values. 
+            The decoder automatically adjusts for any rotation of the QR code by 
+            detecting the orientation squares embedded in the design.
           </p>
         </div>
 
@@ -164,15 +175,20 @@
 
         <div class="step">
           <h3>2. Determine the encoded text's length.</h3>
+          <p>The length of the encoded text is derived from metadata 
+            contained within the QR code.</p>
         </div>
         <div class="step">
           <h3>
-            3. Traverse the QR code grid, converting each 3 box sequence from
-            the data region into the ASCII number.
+            3. Traverse the QR code grid to extract data.
           </h3>
+          <p>The decoder reads sequences of three boxes from the data region and 
+            converts them into ASCII numerical values.</p>
         </div>
         <div class="step">
-          <h3>4. Map each ASCII number to it's corresponding character.</h3>
+          <h3>4. Map each ASCII value characters.</h3>
+          <p>Each ASCII number is then mapped to its corresponding character, 
+            reconstructing the original encoded text.</p>
           <p>
             Voila! The text has been sucessfully extraced from the QR code :)
           </p>
@@ -184,20 +200,26 @@
         <div class="step">
           <h3>What is a checksum?</h3>
           <p>
-            A checksum is a simple function that is used for basic error
-            detection. While it is not fool proof, it is a quick way to do a
-            simple check.
+            A checksum is a numerical or alphanumeric value calculated from a block
+             of data. It is primarily used to verify the integrity of data during
+              storage or transmission. By comparing checksums, you can detect errors
+               or alterations in the data. Although checksums are not foolproof, they
+                offer a quick and simple method for basic error detection.
           </p>
         </div>
         <div class="step">
-          <h3>Our Checksum</h3>
+          <h3>Our Checksum Implementation</h3>
           <p>
-            Our program outputs a checksum when the program is generated. The
-            user will say this and double check it when they decoded, as another
-            checksum is printed. If the checksums are the same we can says that
-            the data is not tampered with. Otherwise is they do not match, then
-            the data may not be the same anymore.
+              When a QR code is generated, it automatically calculates and outputs
+             a checksum. This checksum serves as a reference to ensure the data remains 
+             intact. During decoding, the program generates another checksum based on 
+             the decoded data. By comparing these two checksums, users can verify the 
+             integrity of the data:
           </p>
+          <ul class="bullets">
+            <li>If the checksum match, the data has not been tampered with.</li>
+            <li>If the checksums do not match, the data may have been altered or corrupted.</li>
+          </ul>
           <p>The checksum for our example text is:</p>
           <p class="highlight">Dhs,d(uut:llu?</p>
         </div>
