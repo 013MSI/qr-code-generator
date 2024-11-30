@@ -3,9 +3,14 @@
 #include <vector>
 using namespace std;
 
-char getCharFromUser(const string& prompt, const vector<char>& validChars);
-bool found(char c, const vector<char> &chars);
-string lowerString(const string);
-string trim(string);
+// io utils
+char getChar(const string& prompt, const vector<char>& validChars);
 string getText(const string& prompt);
 char getYesNo(const string& prompt);
+
+// string manip
+string lowerString(const string);
+string trim(string);
+
+// char util
+bool found(char c, const vector<char> &chars);

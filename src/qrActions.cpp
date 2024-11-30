@@ -119,7 +119,7 @@ ColorPalette getPalette() {
         palettes.at(i).print();
         cout << endl << endl;
     }
-    char paletteIndex = getCharFromUser(PROMPT, paletteIndices);
+    char paletteIndex = getChar(PROMPT, paletteIndices);
     // SOURCE: https://stackoverflow.com/questions/5029840/convert-char-to-int-in-c-and-c
     // SOURCE DESCRIPTION: how to convert a number character to an integer
     ColorPalette palette = palettes.at(paletteIndex - '0' - 1);

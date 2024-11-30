@@ -23,5 +23,5 @@ void Menu::print() const {
 }
 
 char Menu::getOption() const {
-    return getCharFromUser("> ", options);
+    return getChar("> ", options);
 }

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char getCharFromUser(const string& prompt, const vector<char>& validChars) {
+char getChar(const string& prompt, const vector<char>& validChars) {
     string input;
     cout << prompt;
     getline(cin, input);
@@ -89,7 +89,7 @@ char getYesNo(const string& prompt) {
     chars.push_back('y');
     chars.push_back('n');
 
-    validChar = getCharFromUser(prompt, chars);
+    validChar = getChar(prompt, chars);
     return validChar;
 
 }
