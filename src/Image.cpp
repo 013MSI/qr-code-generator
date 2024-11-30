@@ -52,13 +52,3 @@ int Image::getWidth() const {
 int Image::getHeight() const {
     return height;
 }
-
-// TODO: delete this
-void Image::print() const {
-    for (int i = 0; i < pixels.size(); i++) {
-        cout << (int) pixels.at(i) << " ";
-        if ((i + 1) % (width * 3) == 0) {
-            cout << endl;
-        }
-    }
-}

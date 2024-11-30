@@ -100,18 +100,6 @@ string QRCode::getText() const {
 }
 
 /*
-* Prints the underlying digit representation of QR code to the terminal.
-*/
-void QRCode::printNumerical() const {
-    for (int i = 0; i < QRCode::SIZE; i++) {
-        for (int j = 0; j < QRCode::SIZE; j++) {
-            cout << right << setw(2) << qrCode.at(i).at(j) << " ";
-        }
-        cout << endl;
-    }
-}
-
-/*
 * Prints a colored QR code to the terminal
 * args:
 *   - ColorPalette palette: the color scheme to use
@@ -472,7 +460,7 @@ vector<int> QRCode::letterToDigits(char letter) {
 int QRCode::decodeColor(const ColorPalette& palette, const Color& c) {
     for (int i = 0; i < palette.size(); i++) {
         Color color = palette.getColor(i);
-        if (color.r == c.r && color.g == c.g && color.b == c.b) {
+        if (color == c) {
             return i;
         }
     }

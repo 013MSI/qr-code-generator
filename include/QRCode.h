@@ -26,10 +26,7 @@ class QRCode {
         QRCode(string);
 
         // instance methods
-        // void regenerate(string); is this worth adding to the interface?
-        // void setColor(string); hexadecimal color foreground
         string getText() const;
-        void printNumerical() const;
         void print(const ColorPalette& palette, const Color& c1, const Color& c2) const;
         bool download(const string& path, const ColorPalette& palette, const Color& c1, const Color& c2) const;
     private:

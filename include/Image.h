@@ -21,8 +21,6 @@ class Image {
         // return a pointer where the first element of the row begins
         uint8_t* getRowAddress(int rowIndex);
         int getRowLength() const;
-        // TODO: delete this
-        void print() const;
     private:
         // static variable
         static const int COLOR_WIDTH = 3;
