@@ -48,6 +48,7 @@ Text to encode:
 
 ![Sample ocean QR code](https://raw.githubusercontent.com/013MSI/qr-code-generator/refs/heads/main/samples/qr-ocean.bmp)
 
+[Original logo design by artist @AlwaysVibing](https://www.pixilart.com/art/a-cat-yin-yang-6b7616cbb5ea153)
 
 ### **Running the App Locally (for unix systems)**
 1. Clone the repository:
